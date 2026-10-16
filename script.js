@@ -44,6 +44,14 @@
     pointerY = (event.clientY / window.innerHeight - .5) * 2;
   }, { passive: true });
 
+  document.querySelectorAll('.tool-item').forEach(item => {
+    const meter = item.querySelector('.tool-meter');
+    const level = clamp(Number(meter.getAttribute('aria-valuenow')) || 0, 0, 100);
+    meter.setAttribute('aria-valuenow', String(level));
+    item.style.setProperty('--tool-level', level / 100);
+    item.querySelector('[data-tool-value]').textContent = String(level);
+  });
+
   document.querySelectorAll('.reveal').forEach(element => {
     const observer = new IntersectionObserver(([entry], currentObserver) => {
       if (entry.isIntersecting) {
